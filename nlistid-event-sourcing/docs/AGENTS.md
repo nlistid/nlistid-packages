@@ -1,29 +1,7 @@
-# AGENTS.md — nlistid-event-sourcing
+# Agents
 
-The `NlistId.EventSourcing` package family.
-
-## Projects
-
-All under `src/`:
-
-- `NlistId.EventSourcing.Abstractions` — interfaces only: events, snapshots, entities, repositories,
-  `IAggregate<T>`, `IDecider<…>`, `IProjector<T>`, `IProjectionRepository`. Its only dependency is
-  `NlistId.Results.Abstractions`.
-- `NlistId.EventSourcing` — `BaseAggregate<T>` and `BaseProjector<T>`. Depends on `NlistId.Results`.
-- `NlistId.EventSourcing.Test` — MSTest BDD tests for `BaseAggregate<T>` and `BaseProjector<T>`.
-  Not packed. Fakes (`Counter*`, `TestEventContext`) live in `Fakes/`.
-
-## NlistId.Results dependency
-
-- Keep the `NlistId.Results` and `NlistId.Results.Abstractions` `PackageReference`s at the same version.
-- To use a change in `nlistid-results`, release it there first, then bump both references here.
-- They restore from GitHub Packages (`https://nuget.pkg.github.com/nlistid/index.json`). The repo
-  has no `nuget.config`, so that source must be set up on the machine.
-
-## README.md
-
-`README.md` is the contract for events, snapshots, repositories, aggregates, deciders and
-projections. Change it in the same commit as code that changes a rule. The rules most easily
+The guides are the contract for events, snapshots, repositories, aggregates, deciders and
+projections. Change them in the same commit as code that changes a rule. The rules most easily
 broken:
 
 - An event is immutable once stored. A new shape is a new type (`OrderPlacedV2`).
@@ -36,21 +14,16 @@ broken:
 - `BaseProjector<T>.Project` returns a failure instead: a conflict for an event already applied or
   after a gap, an unexpected failure for another stream or aggregate type.
 
-## Build / test
+## Readme
 
-```bash
-cd src/NlistId.EventSourcing   # also builds NlistId.EventSourcing.Abstractions
-dotnet build
+What the packages are, how to install and use them, and how to build, test and release them.
 
-cd ../NlistId.EventSourcing.Test
-dotnet test
-```
+@../README.md
 
-Tests follow `/bdd-tests`: a scenario and tests pair per feature folder (`Aggregates/`,
-`Projections/`).
+## Read when needed
 
-## Release
-
-- `.github/workflows/nlistid-event-sourcing.yml` publishes both libraries at its `env.VERSION`.
-- It adds the GitHub Packages source, then runs the tests before packing.
-- Release with `/release-package event-sourcing <version>`.
+| File | Read it when |
+| --- | --- |
+| `guides/events.md` | Changing the event, snapshot or repository interfaces, or implementing a store |
+| `guides/aggregates.md` | Changing `BaseAggregate<T>` or `IDecider<…>`, or writing an aggregate or decider |
+| `guides/projections.md` | Changing `BaseProjector<T>` or `IProjectionRepository`, or writing a projector |

@@ -4,15 +4,10 @@ The rules the code must keep. Update this file when you change them.
 
 ## 1. Packages
 
-| Project | Holds | References |
-|---|---|---|
-| `NlistId.Results.Abstractions` | `IResult<T>` | nothing (StyleCop only, private) |
-| `NlistId.Results` | `Result<T>`, the result types, `ResultFactory`, `ResultExtensions` (`Bind`/`Map`/`OnSuccess`/`OnFailure`) | Abstractions |
-| `NlistId.Results.AspNetCore` | `HttpResultFactory` | Results, Abstractions |
-| `NlistId.Results.Test` | MSTest BDD tests for `ResultExtensions` and `HttpResultFactory` | Results, Abstractions, AspNetCore |
+What each project holds and references is in the [README](../README.md#packages).
 
-The three libraries publish together at one `VERSION` from `nlistid-results.yml`.
-Abstractions must never take a runtime dependency.
+- The three libraries publish together at one `VERSION` from `nlistid-results.yml`.
+- Abstractions must never take a runtime dependency. StyleCop is a private, dev-time analyzer.
 
 ## 2. Types
 

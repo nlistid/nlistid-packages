@@ -1,40 +1,15 @@
-# AGENTS.md — nlistid-telemetry
+# Agents
 
-The `NlistId.Telemetry` package family. It depends on no other family.
+`src/NlistId.Telemetry/README.md` ships in the package: keep it in step with the code.
 
-## Projects
+## Readme
 
-All under `src/`:
+What the packages are, how to install and use them, and how to build, test and release them.
 
-- `NlistId.Telemetry.Abstractions` — interfaces only: `ITelemetry<T>` and `ITelemetryTracing`,
-  `ITelemetryTracingSpan`, `ITelemetryLogger`, `ITelemetryMetrics`, `ITelemetryBaggage`,
-  `ITelemetryCorrelation`. **Must never take a `PackageReference`.**
-- `NlistId.Telemetry` — the OpenTelemetry-shaped implementation, one folder per concern
-  (`Tracing/`, `Logging/`, `Metrics/`, `Baggage/`, `Correlation/`), plus `Telemetry.cs` and
-  `services.AddTelemetry()` in `TelemetryServiceCollectionExtensions.cs`. References
-  `OpenTelemetry.Api` and the `Microsoft.Extensions` DI and logging abstractions. Packs its own
-  `README.md`, which is the package's usage guide.
-- `NlistId.Telemetry.Test` — MSTest BDD tests for every concern and `AddTelemetry`, against the
-  real `Tracer`, `Meter` and `OpenTelemetry.Baggage`. Not packed.
+@../README.md
 
-## Build / test
+## Architecture
 
-```bash
-cd src/NlistId.Telemetry   # also builds NlistId.Telemetry.Abstractions
-dotnet build
+How the projects are laid out, and how the tests keep apart in parallel.
 
-cd ../NlistId.Telemetry.Test
-dotnet test
-```
-
-Tests follow `/bdd-tests`: a scenario and tests pair per feature folder (`Baggage/`,
-`Correlation/`, `Logging/`, `Metrics/`, `Registration/`, `Tracing/`), fakes in `Fakes/`. They run
-in parallel, so a scenario that touches process-wide state keeps to its own: tracing names its
-`ActivitySource` once per scenario, metrics listens to its own `Meter` only, and baggage clears
-`OpenTelemetry.Baggage` first.
-
-## Release
-
-- `.github/workflows/nlistid-telemetry.yml` publishes both projects at its `env.VERSION`.
-- Tests run before packing, so a failing test stops the release.
-- Release with `/release-package telemetry <version>`.
+@ARCHITECTURE.md
